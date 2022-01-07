@@ -10,7 +10,7 @@ submitButton.addEventListener("click", handleCitySearch)
 function handleCitySearch(event) {
     event.preventDefault();
     var searchInputVal = document.querySelector("#searchInput").value.trim();
-    var fiveDayRequestUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchInputVal + "&appid=" + apiKey; // 5 day forecase
+    var fiveDayRequestUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchInputVal + "&appid=" + apiKey // 5 day forecase
     var currentDayRequestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + searchInputVal + "&appid=" + apiKey + "&units=imperial";
 
     fetch(currentDayRequestUrl)
@@ -19,7 +19,6 @@ function handleCitySearch(event) {
     })
     .then(function (data) {
         currentCitySlot.textContent = searchInputVal
-
         //current temp
         var tempSlot = document.createElement("h4")
         tempSlot.textContent = "Temperature: " + data.main.temp + "°F";
@@ -43,10 +42,13 @@ function handleCitySearch(event) {
     })
     .then(function(data) {
         console.log(data)
-        for (var i = 0; i < 5; i++) {
-            var dateSlot = document.createElement("h4");
-            dateSlot.textContent = data.list[i].dt_text
-            fiveDayForecastSection.append(dateSlot)
+        for (var i = 3; i < 30; i += 6) {
+            var daySection = document.createElement("section");
+            fiveDayForecastSection.append(daySection);
+            //adds date to each
+            var dateSlot = document.createElement("h3");
+            dateSlot.textContent = data.list[i].dt_txt
+            daySection.append(dateSlot);
         }
     })
 }
